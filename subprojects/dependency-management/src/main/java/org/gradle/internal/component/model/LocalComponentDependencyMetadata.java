@@ -40,6 +40,7 @@ public class LocalComponentDependencyMetadata implements LocalOriginDependencyMe
     private final boolean force;
     private final boolean changing;
     private final boolean transitive;
+    private final boolean optional;
 
     private final AttributeContainer moduleAttributes;
 
@@ -49,7 +50,7 @@ public class LocalComponentDependencyMetadata implements LocalOriginDependencyMe
                                             AttributeContainer moduleAttributes,
                                             String dependencyConfiguration,
                                             Set<IvyArtifactName> artifactNames, List<ExcludeMetadata> excludes,
-                                            boolean force, boolean changing, boolean transitive) {
+                                            boolean force, boolean changing, boolean transitive, boolean optional) {
         this.componentId = componentId;
         this.selector = selector;
         this.moduleConfiguration = moduleConfiguration;
@@ -60,6 +61,7 @@ public class LocalComponentDependencyMetadata implements LocalOriginDependencyMe
         this.force = force;
         this.changing = changing;
         this.transitive = transitive;
+        this.optional = optional;
     }
 
     @Override
@@ -135,7 +137,7 @@ public class LocalComponentDependencyMetadata implements LocalOriginDependencyMe
 
     @Override
     public boolean isOptional() {
-        return false;
+        return optional;
     }
 
     @Override
@@ -152,6 +154,6 @@ public class LocalComponentDependencyMetadata implements LocalOriginDependencyMe
     }
 
     private LocalOriginDependencyMetadata copyWithTarget(ComponentSelector selector) {
-        return new LocalComponentDependencyMetadata(componentId, selector, moduleConfiguration, moduleAttributes, dependencyConfiguration, artifactNames, excludes, force, changing, transitive);
+        return new LocalComponentDependencyMetadata(componentId, selector, moduleConfiguration, moduleAttributes, dependencyConfiguration, artifactNames, excludes, force, changing, transitive, optional);
     }
 }
