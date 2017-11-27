@@ -59,6 +59,10 @@ class ModuleVersionSpec {
         expectGetMetadata << InteractionExpectation.GET
     }
 
+    void expectGetMetadataMissing() {
+        expectGetMetadata << InteractionExpectation.GET_MISSING
+    }
+
     void expectHeadMetadata() {
         expectGetMetadata << InteractionExpectation.HEAD
     }
@@ -134,6 +138,16 @@ class ModuleVersionSpec {
                     }
                     if (gradleMetadataEnabled) {
                         module.moduleMetadata.expectHead()
+                    }
+                    break
+                case InteractionExpectation.GET_MISSING:
+                    if (module instanceof MavenModule) {
+                        module.pom.expectGetMissing()
+                    } else if (module instanceof IvyModule) {
+                        module.ivy.expectGetMissing()
+                    }
+                    if (gradleMetadataEnabled) {
+                        module.moduleMetadata.expectGetMissing()
                     }
                     break
                 default:
